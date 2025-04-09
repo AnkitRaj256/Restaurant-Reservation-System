@@ -1,4 +1,5 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import '../styles/ReservationForm.css';
 
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
@@ -29,56 +30,72 @@ const ReservationForm = () => {
         ...prev,
         [type]: prev[type] - parseInt(formData.count)
       }));
-      alert('Reservation successful!');
+      alert('🍽️ Reservation successful!');
     } else {
-      alert('Not enough tables available!');
+      alert('❌ Not enough tables available!');
     }
   };
 
   return (
-    <div id="reserve" style={{ padding: '2rem' }}>
-      <h2 style={{ color: '#f57c00', textAlign: 'center' }}>Reserve Your Table</h2>
-      <form onSubmit={handleSubmit} style={{
-        display: 'flex',
-        flexDirection: 'column',
-        maxWidth: '500px',
-        margin: 'auto',
-        gap: '1rem'
-      }}>
-        <input name="date" type="date" onChange={handleChange} required />
-        <input name="time" type="time" onChange={handleChange} required />
+    <div id='reserve' className="reservation-container">
+      <form onSubmit={handleSubmit} className="reservation-form">
+        <h2 className="form-title">Reserve Your Table</h2>
 
-        <select name="type" value={formData.type} onChange={handleChange}>
-          {Object.keys(availableTables).map(type => (
-            <option key={type} value={type}>
-              {type} (Available: {availableTables[type]})
-            </option>
-          ))}
-        </select>
+        <div className="form-group">
+          <label>Date</label>
+          <input name="date" type="date" onChange={handleChange} required />
+        </div>
 
-        <input
-          type="number"
-          name="count"
-          min="1"
-          placeholder="Number of Tables"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Book Now</button>
+        <div className="form-group">
+          <label>Time</label>
+          <input name="time" type="time" onChange={handleChange} required />
+        </div>
+
+        <div className="form-group">
+          <label>Table Type</label>
+          <select name="type" value={formData.type} onChange={handleChange}>
+            {Object.keys(availableTables).map(type => (
+              <option key={type} value={type}>
+                {type} (Available: {availableTables[type]})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>No. of Tables</label>
+          <input
+            type="number"
+            name="count"
+            min="1"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="example@email.com"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Phone</label>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="+91XXXXXXXXXX"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <button type="submit" className="submit-button">Book Now</button>
       </form>
     </div>
   );

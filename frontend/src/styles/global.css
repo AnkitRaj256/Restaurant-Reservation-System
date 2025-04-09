@@ -1,8 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #010101, #837bac);
-  color: white;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, #f4a261, #e76f51, #e4e13a);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .app-container {
@@ -12,7 +20,7 @@ body {
 }
 
 .app-title {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 3rem;
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
 }
@@ -48,15 +56,16 @@ body {
 }
 
 .owner-btn {
-  background-color: #ff863a;
+  background-color: #151515;
 }
 
 .user-btn {
-  background-color: #00ae8c;
+  background-color: #151515;
 }
 
 .login-button:hover {
   opacity: 0.9;
   transform: scale(1.05);
   transition: all 0.2s ease;
+  color: black;
 }

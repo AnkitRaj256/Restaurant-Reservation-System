@@ -10,8 +10,8 @@ const UserDashboard = () => {
     <>
       <Navbar />
       <Hero />
-      <ReservationForm />
       <Menu />
+      <ReservationForm />
       <Footer />
     </>
   );
