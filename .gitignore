@@ -1,0 +1,15 @@
+# .gitignore
+
+# Node
+node_modules/
+.env
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+
+# React build
+frontend/build/
