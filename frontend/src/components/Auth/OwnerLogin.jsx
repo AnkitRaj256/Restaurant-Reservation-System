@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import OwnerDashboard from '../../pages/OwnerDashboard';
+import OwnerDashboard from '../../pages/OwnerDashboard'
+import './UserLogin.css';
 
 const OwnerLogin = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -11,12 +12,26 @@ const OwnerLogin = () => {
   if (loggedIn) return <OwnerDashboard />;
 
   return (
-    <div style={{ textAlign: 'center', paddingTop: '5rem' }}>
-      <h2>Owner Login</h2>
-      <input placeholder="Email" style={{ padding: '0.5rem', marginRight: '0.5rem' }} />
-      <input type="password" placeholder="Password" style={{ padding: '0.5rem' }} />
-      <div style={{ marginTop: '1rem' }}>
-        <button onClick={handleLogin}>Login</button>
+    <div className="restaurant-login-container">
+      <div className="restaurant-login-box">
+        <div className="login-avatar">
+          🍽️
+        </div>
+        <h2 className="login-title">Welcome to the Restaurant Admin Panel 🍽️</h2>
+        <input type="email" placeholder="Email ID" className="login-input" />
+        <input type="password" placeholder="Password" className="login-input" />
+        <div className="login-options">
+          <label>
+            <input type="checkbox" /> Remember me
+          </label>
+          <button
+            className="forgot-link"
+            onClick={() => alert('Redirect to password recovery')}
+          >
+            Forgot Password?
+          </button>
+        </div>
+        <button className="login-button" onClick={handleLogin}>LOGIN</button>
       </div>
     </div>
   );

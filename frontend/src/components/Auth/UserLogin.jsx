@@ -18,6 +18,8 @@ const UserLogin = () => {
           🍽️
         </div>
         <h2 className="login-title">Welcome to RestoReserve</h2>
+        <input type="name" placeholder="Name" className="login-input" />
+
         <input type="email" placeholder="Email ID" className="login-input" />
         <input type="password" placeholder="Password" className="login-input" />
         <div className="login-options">
