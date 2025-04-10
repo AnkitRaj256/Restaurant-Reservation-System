@@ -42,6 +42,12 @@ const ReservationForm = () => {
         <h2 className="form-title">Reserve Your Table</h2>
 
         <div className="form-group">
+          <label>Name</label>
+          <input name="name" type="text" placeholder='Full Name' onChange={handleChange} required />
+        </div>
+
+
+        <div className="form-group">
           <label>Date</label>
           <input name="date" type="date" onChange={handleChange} required />
         </div>
@@ -68,6 +74,7 @@ const ReservationForm = () => {
             type="number"
             name="count"
             min="1"
+            placeholder='0'
             onChange={handleChange}
             required
           />
