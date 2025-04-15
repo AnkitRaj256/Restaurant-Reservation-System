@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/ReservationForm.css';
 
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
+    name: '',
     date: '',
     time: '',
     type: '2-seater',
@@ -11,26 +12,56 @@ const ReservationForm = () => {
     phone: ''
   });
 
-  const [availableTables, setAvailableTables] = useState({
-    '2-seater': 5,
-    '4-seater': 3,
-    '6-seater': 2
-  });
+  const [availableTables, setAvailableTables] = useState({});
+
+  useEffect(() => {
+    const fetchTables = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/tables/all');
+        const data = await res.json();
+        setAvailableTables(data);
+      } catch (err) {
+        console.error('Error fetching tables:', err);
+      }
+    };
+    fetchTables();
+  }, []);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const type = formData.type;
+
     if (availableTables[type] >= formData.count) {
-      setAvailableTables(prev => ({
-        ...prev,
-        [type]: prev[type] - parseInt(formData.count)
-      }));
-      alert('🍽️ Reservation successful!');
+      try {
+        const response = await fetch('http://localhost:5000/api/reservation/book', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setAvailableTables(prev => ({
+            ...prev,
+            [type]: prev[type] - parseInt(formData.count),
+          }));
+          alert('🍽️ Reservation successful!');
+        } else {
+          alert('❌ ' + result.error || 'Failed to reserve table.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Something went wrong while reserving.');
+      }
     } else {
       alert('❌ Not enough tables available!');
     }
@@ -45,7 +76,6 @@ const ReservationForm = () => {
           <label>Name</label>
           <input name="name" type="text" placeholder='Full Name' onChange={handleChange} required />
         </div>
-
 
         <div className="form-group">
           <label>Date</label>

@@ -1,15 +1,16 @@
+// src/components/User/UserRegister.jsx
 import React, { useState } from 'react';
+import './UserLogin.css'; // reuse styles
 import { Link } from 'react-router-dom';
-import UserDashboard from '../../pages/UserDashboard';
-import './UserLogin.css';
 
-const UserLogin = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+const UserRegister = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
   });
+
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ 
@@ -18,31 +19,40 @@ const UserLogin = () => {
     });
   };
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/user/login', {
+      const response = await fetch('http://localhost:5000/api/user/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setLoggedIn(true);
+        setSuccess(true);
       } else {
-        alert('Login failed or user not registered');
+        alert('Registration failed. Try again.');
       }
     } catch (err) {
-      console.error('Error logging in:', err);
+      console.error('Error registering user:', err);
     }
   };
 
-  if (loggedIn) return <UserDashboard />;
+  if (success) {
+    return (
+      <div className="restaurant-login-container">
+        <div className="restaurant-login-box">
+          <h2 className="login-title">🎉 Registered Successfully!</h2>
+          <p>You can now log in from the login page.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="restaurant-login-container">
       <div className="restaurant-login-box">
-        <div className="login-avatar">🍽️</div>
-        <h2 className="login-title">Welcome to RestoReserve</h2>
+        <div className="login-avatar">📝</div>
+        <h2 className="login-title">Create Your RestoReserve Account</h2>
 
         <input
           name="name"
@@ -68,27 +78,16 @@ const UserLogin = () => {
           value={formData.password}
           onChange={handleChange}
         />
-
-        <div className="login-options">
-          <label>
-            <input type="checkbox" /> Remember me
-          </label>
-          <button
-            className="forgot-link"
-            onClick={() => alert('Redirect to password recovery')}
-          >
-            Forgot Password?
-          </button>
-        </div>
         <p className="signup-link">
-          New here? <Link to="/register">Register Now</Link>
-        </p>
+            Already a user? <Link to='/login'>Login</Link>
+         </p>
 
-
-        <button className="login-button" onClick={handleLogin}>LOGIN</button>
+        <button className="login-button" onClick={handleRegister}>
+          REGISTER
+        </button>
       </div>
     </div>
   );
 };
 
-export default UserLogin;
+export default UserRegister;

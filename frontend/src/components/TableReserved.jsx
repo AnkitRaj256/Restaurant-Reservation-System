@@ -5,22 +5,42 @@ const TableReserved = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        // Replace with your real backend endpoint
-        const response = await fetch('http://localhost:5000/api/reservations');
-        const data = await response.json();
-        setReservations(data);
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchReservations = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/reservation/reservations');
+      const data = await response.json();
+      setReservations(data);
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchReservations();
   }, []);
+
+  // Delete Reservation
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this reservation?');
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/reservation/delete/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setReservations((prev) => prev.filter((res) => res._id !== id));
+        alert('🗑️ Reservation deleted.');
+      } else {
+        alert('❌ Failed to delete reservation.');
+      }
+    } catch (error) {
+      console.error('Error deleting reservation:', error);
+    }
+  };
 
   return (
     <div id='reserved' className="table-reserved-container">
@@ -39,8 +59,11 @@ const TableReserved = () => {
               <p><strong>Phone:</strong> {res.phone}</p>
               <p><strong>Date:</strong> {res.date}</p>
               <p><strong>Time:</strong> {res.time}</p>
-              <p><strong>Table Type:</strong> {res.tableType}</p>
-              <p><strong>No. of Tables:</strong> {res.noOfTables}</p>
+              <p><strong>Table Type:</strong> {res.type}</p>
+              <p><strong>No. of Tables:</strong> {res.count}</p>
+              <button className="delete-button" onClick={() => handleDelete(res._id)}>
+                🗑️ Delete
+              </button>
             </div>
           ))}
         </div>
